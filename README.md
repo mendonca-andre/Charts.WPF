@@ -5,7 +5,9 @@ Modern UI Charts for WPF.
 Install-Package Charts.WPF -Version 1.0.0
 ```
 
-# Changes:
+# Release Notes:
+Fork of http://modernuicharts.codeplex.com/
+
 Code ported to C#6. General bug fixes and optimizations for new frameworks.
 
 ### Screenshots
@@ -29,7 +31,4 @@ public class TestClass
     ValueMember="Number"    
     ItemsSource="{Binding Path=Errors}" />
 ```
-   
-
-fork of http://modernuicharts.codeplex.com/
   
