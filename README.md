@@ -16,7 +16,7 @@ Code ported to C#6. General bug fixes and optimizations for new frameworks.
 
 ![Dark Theme](https://github.com/mendonca-andre/Charts.WPF/blob/master/Screenshots/dark.png)
 
-###Examples
+### Examples
 
 ```csharp
 public class TestClass
