@@ -1,8 +1,9 @@
 # Charts.WPF
-Charts for WPF
-### fork of http://modernuicharts.codeplex.com/
+Modern UI (Metro) Charts for WPF.
 
-### Changes:
+# fork of http://modernuicharts.codeplex.com/
+
+# Changes:
 Code ported to C#6. General bug fixes and optimizations for new frameworks.
 
 ###Examples
