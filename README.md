@@ -1,8 +1,6 @@
 # Charts.WPF
 Modern UI (Metro) Charts for WPF.
 
-# fork of http://modernuicharts.codeplex.com/
-
 # Changes:
 Code ported to C#6. General bug fixes and optimizations for new frameworks.
 
@@ -22,3 +20,6 @@ public class TestClass
     ItemsSource="{Binding Path=Errors}" />
 ```
    
+
+# fork of http://modernuicharts.codeplex.com/
+  
