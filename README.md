@@ -1,5 +1,5 @@
 # Charts.WPF
-Modern UI (Metro) Charts for WPF.
+Modern UI Charts for WPF.
 
 # Changes:
 Code ported to C#6. General bug fixes and optimizations for new frameworks.
