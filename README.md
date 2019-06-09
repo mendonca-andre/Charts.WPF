@@ -4,6 +4,9 @@ Modern UI (Metro) Charts for WPF.
 # Changes:
 Code ported to C#6. General bug fixes and optimizations for new frameworks.
 
+#Screenshots
+https://github.com/mendonca-andre/Charts.WPF/blob/master/Screenshots/light
+
 ###Examples
 
 ```csharp
