@@ -1,6 +1,10 @@
 # Charts.WPF
 Modern UI Charts for WPF.
 
+```csharp
+Install-Package Charts.WPF -Version 1.0.0
+```
+
 # Changes:
 Code ported to C#6. General bug fixes and optimizations for new frameworks.
 
