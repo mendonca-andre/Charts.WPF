@@ -1,0 +1,103 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Release</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{873EF590-4233-477C-AA13-B20B7932AE8E}</ProjectGuid>
+    <OutputType>library</OutputType>
+    <RootNamespace>Charts.WPF</RootNamespace>
+    <AssemblyName>Charts.WPF</AssemblyName>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ChartControls\ChartArea.cs" />
+    <Compile Include="ChartControls\ChartLegendItem.cs" />
+    <Compile Include="ChartControls\ChartSeries.cs" />
+    <Compile Include="ChartControls\ChartTitle.cs" />
+    <Compile Include="ChartControls\Legend.cs" />
+    <Compile Include="ChartControls\PiePieceLabel.cs" />
+    <Compile Include="ChartControls\PlotterArea.cs" />
+    <Compile Include="ChartControls\ResourceDictionaryCollection.cs" />
+    <Compile Include="Controls\AutoSizeTextBlock.cs" />
+    <Compile Include="Controls\ColumnSeriesPanel.cs" />
+    <Compile Include="Controls\CustomWrapPanel.cs" />
+    <Compile Include="Controls\EvenlyDistributedColumnsGrid.cs" />
+    <Compile Include="Controls\EvenlyDistributedRowGrid.cs" />
+    <Compile Include="Controls\FadingListView.cs" />
+    <Compile Include="Controls\MinimalWidthTextBlock.cs" />
+    <Compile Include="Controls\RowSeriesPanel.cs" />
+    <Compile Include="Controls\StackedColumnsPanel.cs" />
+    <Compile Include="Controls\UniformGridPanel.cs" />
+    <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
+    <Compile Include="Converters\DoubleToGridLengthPercent.cs" />
+    <Compile Include="Core\BarChart\BarPiece.cs" />
+    <Compile Include="Core\BarChart\ClusteredBarChart.cs" />
+    <Compile Include="Core\BarChart\StackedBar100Chart.cs" />
+    <Compile Include="Core\BarChart\StackedBarChart.cs" />
+    <Compile Include="Core\ChartBase.cs" />
+    <Compile Include="Core\ChartSeriesViewModel.cs" />
+    <Compile Include="Core\ColumnChart\ClusteredColumnChart.cs" />
+    <Compile Include="Core\ColumnChart\ColumnPiece.cs" />
+    <Compile Include="Core\ColumnChart\StackedColumn100Chart.cs" />
+    <Compile Include="Core\ColumnChart\StackedColumnChart.cs" />
+    <Compile Include="Core\DataPoint.cs" />
+    <Compile Include="Core\DataPointGroup.cs" />
+    <Compile Include="Core\Doughnut\DoughnutChart.cs" />
+    <Compile Include="Core\Extensions.cs" />
+    <Compile Include="Core\GaugeChart\RadialGaugeChart.cs" />
+    <Compile Include="Core\GaugeChart\RadialGaugePiece.cs" />
+    <Compile Include="Core\PieceBase.cs" />
+    <Compile Include="Core\PieChart\PieChart.cs" />
+    <Compile Include="Core\PieChart\PiePiece.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Themes\Generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

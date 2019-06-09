@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29001.49
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Charts.WPF", "Charts.WPF.csproj", "{873EF590-4233-477C-AA13-B20B7932AE8E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Charts.WPF.Examples", "..\Charts.WPF.Examples\Charts.WPF.Examples.csproj", "{3CFFAD42-6731-43F8-A0D8-1D3E96FD4B24}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{873EF590-4233-477C-AA13-B20B7932AE8E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{873EF590-4233-477C-AA13-B20B7932AE8E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{873EF590-4233-477C-AA13-B20B7932AE8E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{873EF590-4233-477C-AA13-B20B7932AE8E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3CFFAD42-6731-43F8-A0D8-1D3E96FD4B24}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3CFFAD42-6731-43F8-A0D8-1D3E96FD4B24}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3CFFAD42-6731-43F8-A0D8-1D3E96FD4B24}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3CFFAD42-6731-43F8-A0D8-1D3E96FD4B24}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A554C95E-3B72-4A2E-A20E-EA245FFC6D5A}
+	EndGlobalSection
+EndGlobal
