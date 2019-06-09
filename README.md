@@ -8,7 +8,7 @@ Install-Package Charts.WPF -Version 1.0.0
 # Release Notes:
 Fork of http://modernuicharts.codeplex.com/
 
-Code ported to C#6. General bug fixes and optimizations for new frameworks.
+Code ported to C#6. General bug fixes and optimizations for the newest frameworks.
 
 ### Screenshots
 
