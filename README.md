@@ -15,6 +15,7 @@ If you have found this project helpful, either as a library that you use or as a
 <a href="https://www.buymeacoffee.com/amendonca" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-red.png" alt="Buy Me A Coffee" style="height: 51px !important;width: 217px !important;" ></a>
 
 ### Screenshots
+![Default](https://github.com/mendonca-andre/Charts.WPF/blob/master/Screenshots/default.png)
 
 ![Light Theme](https://github.com/mendonca-andre/Charts.WPF/blob/master/Screenshots/light.png)
 
