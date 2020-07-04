@@ -1,7 +1,5 @@
-﻿namespace Charts.WPF.Examples
+﻿namespace Charts.WPF.Example
 {
-    using System.Windows;
-
     public partial class App
     {
     }

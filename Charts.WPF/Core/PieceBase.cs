@@ -17,13 +17,11 @@
     using System.Windows.Input;
     using System.Windows.Media;
 
-    using Charts.WPF.Core.BarChart;
-
     /// <summary>
     /// The piece base.
     /// </summary>
-    [TemplateVisualState(Name = BarPiece.StateSelectionUnselected, GroupName = BarPiece.GroupSelectionStates)]
-    [TemplateVisualState(Name = BarPiece.StateSelectionSelected, GroupName = BarPiece.GroupSelectionStates)]
+    [TemplateVisualState(Name = StateSelectionUnselected, GroupName = GroupSelectionStates)]
+    [TemplateVisualState(Name = StateSelectionSelected, GroupName = GroupSelectionStates)]
     public abstract class PieceBase : Control
     {
         #region Fields
@@ -34,11 +32,11 @@
 
         public static readonly DependencyProperty ClientHeightProperty =
             DependencyProperty.Register("ClientHeight", typeof(double), typeof(PieceBase),
-            new PropertyMetadata(0.0, new PropertyChangedCallback(OnSizeChanged)));
+            new PropertyMetadata(0.0, OnSizeChanged));
         
         public static readonly DependencyProperty ClientWidthProperty =
             DependencyProperty.Register("ClientWidth", typeof(double), typeof(PieceBase),
-            new PropertyMetadata(0.0, new PropertyChangedCallback(OnSizeChanged)));
+            new PropertyMetadata(0.0, OnSizeChanged));
 
         public static readonly DependencyProperty SelectedBrushProperty =
             DependencyProperty.Register("SelectedBrush", typeof(Brush), typeof(PieceBase),
@@ -50,7 +48,7 @@
 
         public static readonly DependencyProperty IsSelectedProperty =
             DependencyProperty.Register("IsSelected", typeof(bool), typeof(PieceBase),
-            new PropertyMetadata(false, new PropertyChangedCallback(OnIsSelectedChanged)));
+            new PropertyMetadata(false, OnIsSelectedChanged));
         
         public static readonly DependencyProperty IsClickedByUserProperty =
             DependencyProperty.Register("IsClickedByUser", typeof(bool), typeof(PieceBase),
@@ -171,7 +169,7 @@
 
         private void InternalMousePressed()
         {
-            this.SetValue(PieceBase.IsClickedByUserProperty, true);
+            this.SetValue(IsClickedByUserProperty, true);
         }
 
         private void InternalMouseMoved()

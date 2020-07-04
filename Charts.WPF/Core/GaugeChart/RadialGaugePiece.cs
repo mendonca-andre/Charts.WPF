@@ -13,6 +13,7 @@
 #else
 #endif
     using System;
+    using System.Diagnostics;
     using System.Windows;
     using System.Windows.Media;
     using System.Windows.Shapes;
@@ -33,7 +34,7 @@
         EaseOutExpo = 10
     }
 
-    [TemplateVisualState(Name = RadialGaugePiece.StateSelectionSelected, GroupName = RadialGaugePiece.GroupSelectionStates)]
+    [TemplateVisualState(Name = StateSelectionSelected, GroupName = GroupSelectionStates)]
     public class RadialGaugePiece : PieceBase
     {        
         #region Fields
@@ -47,7 +48,7 @@
         
         public static readonly DependencyProperty ValueProperty =
             DependencyProperty.Register("Value", typeof(double), typeof(RadialGaugePiece),
-            new PropertyMetadata(0.0, new PropertyChangedCallback(UpdatePie)));
+            new PropertyMetadata(0.0, UpdatePie));
         
         public static readonly DependencyProperty AnimatedValueProperty =
             DependencyProperty.Register("AnimatedValue", typeof(double), typeof(RadialGaugePiece),
@@ -284,7 +285,7 @@
 
         private void UpdateFormattedValue()
         {
-            this.SetValue(RadialGaugePiece.FormattedAnimatedValueProperty, this.AnimatedValue.ToString("F0"));
+            this.SetValue(FormattedAnimatedValueProperty, this.AnimatedValue.ToString("F0"));
         }
 
         protected override void InternalOnApplyTemplate()
@@ -321,20 +322,20 @@
                 var segmentPathData = this.LayoutSegment(startAngle, endAngle, radius, 0.50, center, true);
                 if (segmentPathData != null)
                 {
-                    this.SetValue(RadialGaugePiece.GeometryProperty, this.CloneDeep(segmentPathData as PathGeometry));
-                    this.SetValue(RadialGaugePiece.SelectionGeometryProperty, this.CloneDeep(segmentPathData as PathGeometry));
+                    this.SetValue(GeometryProperty, this.CloneDeep(segmentPathData as PathGeometry));
+                    this.SetValue(SelectionGeometryProperty, this.CloneDeep(segmentPathData as PathGeometry));
                 }
 
                 var segmentPathDataBackground = this.LayoutSegment(endAngle, 360, radius, 0.50, center, true);
                 if (segmentPathDataBackground != null)
                 {
-                    this.SetValue(RadialGaugePiece.BackgroundGeometryProperty, this.CloneDeep(segmentPathDataBackground as PathGeometry));
+                    this.SetValue(BackgroundGeometryProperty, this.CloneDeep(segmentPathDataBackground as PathGeometry));
                 }
                 
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Trace.WriteLine(ex.ToString());
+                Trace.WriteLine(ex.ToString());
             }
         }
                
@@ -386,12 +387,12 @@
                 var isReflexAngle = Math.Abs(endAngle - startAngle) > 180.0;
                 
                 var segments = new PathSegmentCollection();
-                segments.Add(new LineSegment() { Point = B });
+                segments.Add(new LineSegment { Point = B });
 
                 if (isDoughnut)
                 {
-                    segments.Add(new ArcSegment()
-                    {
+                    segments.Add(new ArcSegment
+                                     {
                         Size = new Size(gapRadius, gapRadius),
                         Point = C,
                         SweepDirection = SweepDirection.Clockwise,
@@ -399,26 +400,26 @@
                     });
                 }
 
-                segments.Add(new LineSegment() { Point = D });
-                segments.Add(new ArcSegment()
-                {
+                segments.Add(new LineSegment { Point = D });
+                segments.Add(new ArcSegment
+                                 {
                     Size = new Size(pieRadius, pieRadius),
                     Point = A,
                     SweepDirection = SweepDirection.Counterclockwise,
                     IsLargeArc = isReflexAngle
                 });
                 
-                var segmentPath = new Path()
-                {
+                var segmentPath = new Path
+                                      {
                     StrokeLineJoin = PenLineJoin.Round,
-                    Stroke = new SolidColorBrush() { Color = Colors.Black },
+                    Stroke = new SolidColorBrush { Color = Colors.Black },
                     StrokeThickness = 0.0d,
-                    Data = new PathGeometry()
-                    {
-                        Figures = new PathFigureCollection()
-                        {
-                            new PathFigure()
-                            {
+                    Data = new PathGeometry
+                               {
+                        Figures = new PathFigureCollection
+                                      {
+                            new PathFigure
+                                {
                                 IsClosed = true,
                                 StartPoint = A,
                                 Segments = segments
@@ -431,7 +432,7 @@
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Trace.WriteLine(ex.ToString());
+                Trace.WriteLine(ex.ToString());
             }
 
             return null;

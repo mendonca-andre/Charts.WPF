@@ -40,10 +40,10 @@
             var percentage = (double)value;
             if (parameter != null)
             {
-                return percentage <= 1 ? new GridLength(1.0 - (double)percentage, GridUnitType.Star) : new GridLength(100.0 - (double)percentage, GridUnitType.Star);
+                return percentage <= 1 ? new GridLength(1.0 - percentage, GridUnitType.Star) : new GridLength(100.0 - percentage, GridUnitType.Star);
             }
 
-            return new GridLength((double)percentage, GridUnitType.Star);
+            return new GridLength(percentage, GridUnitType.Star);
         }
     }
 }

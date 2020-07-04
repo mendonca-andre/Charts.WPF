@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{3CFFAD42-6731-43F8-A0D8-1D3E96FD4B24}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>Charts.WPF.Examples</RootNamespace>
-    <AssemblyName>Charts.WPF.Examples</AssemblyName>
+    <RootNamespace>Charts.WPF.Example</RootNamespace>
+    <AssemblyName>Charts.WPF.Example</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -55,6 +55,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ViewModel\SeriesData.cs" />
     <Compile Include="ViewModel\TestPageViewModel.cs" />
     <Compile Include="ViewModel\TestClass.cs" />
     <Page Include="MainWindow.xaml">
@@ -84,7 +85,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Charts.WPF\Charts.WPF.csproj">
-      <Project>{873ef590-4233-477c-aa13-b20b7932ae8e}</Project>
+      <Project>{873EF590-4233-477C-AA13-B20B7932AE8E}</Project>
       <Name>Charts.WPF</Name>
     </ProjectReference>
   </ItemGroup>

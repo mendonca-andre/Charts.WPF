@@ -52,9 +52,9 @@
             if (this.Children.Count > 0)
             {
                 var z = this.SimpleArrange(finalSize.Width, finalSize.Height);
-                if(base.Height != z.Height)
+                if(this.Height != z.Height)
                 {
-                    base.Height = z.Height;
+                    this.Height = z.Height;
                 }
 
                 return z;

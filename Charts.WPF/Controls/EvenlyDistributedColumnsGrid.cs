@@ -13,6 +13,7 @@
 #else
 #endif
     using System;
+    using System.Diagnostics;
     using System.Windows;
     using System.Windows.Controls;
 
@@ -77,7 +78,7 @@
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Trace.WriteLine(ex.ToString());
+                Trace.WriteLine(ex.ToString());
                 return new Size(0, 0);
             }            
         }

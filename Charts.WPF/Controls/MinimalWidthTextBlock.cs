@@ -36,9 +36,9 @@
         static MinimalWidthTextBlock()
         {
 #if NETFX_CORE
-            //do nothing
+            // do nothing
 #elif SILVERLIGHT
-            //do nothing
+            // do nothing
 #else
             DefaultStyleKeyProperty.OverrideMetadata(typeof(MinimalWidthTextBlock), new FrameworkPropertyMetadata(typeof(MinimalWidthTextBlock))); 
 #endif
@@ -51,7 +51,8 @@
 #elif SILVERLIGHT
             this.DefaultStyleKey = typeof(MinimalWidthTextBlock);
 #else
-            //do nothing
+
+            // do nothing
 #endif
         }
 
@@ -67,6 +68,7 @@
             base.OnApplyTemplate();
             this.InternalOnApplyTemplate();
         }
+
 #endif
         Border mainBorder;
         TextBlock mainTextBlock;
@@ -101,22 +103,24 @@
                 {
                     separator = ' ';
                 }
+
                 if (text.Contains("."))
                 {
                     separator = '.';
                 }
+
                 if (separator != DEFAULTCHARSEPARATOR)
                 {
-                    //find all combinations how the sentence could be split into 2 lines
+                    // find all combinations how the sentence could be split into 2 lines
                     var allcombinations = this.GetAllLinesCombinations(text, separator);
 
                     var bestWidth = double.PositiveInfinity;
                     foreach (var combination in allcombinations)
                     {
-                        //now find the max width of the combination
+                        // now find the max width of the combination
                         var maxwidth = this.GetMaxTextWidth(combination);
 
-                        //but we want the smallest combination
+                        // but we want the smallest combination
                         if (maxwidth < bestWidth)
                         {
                             bestWidth = maxwidth;
@@ -161,6 +165,7 @@
                     longestLineWidth = lineWidth;
                 }
             }
+
             return longestLineWidth;
         }
 
@@ -176,7 +181,8 @@
         {
             // Number of site features
             var combinations = new List<string[]>();
-            //string[] allWords = text.Split(new char[] { ' ' });
+
+            // string[] allWords = text.Split(new char[] { ' ' });
             var startposition = 0;
 
             while (true)
@@ -190,8 +196,8 @@
                 var firstPart = text.Substring(0, spacePosition);
                 var secondPart = text.Substring(spacePosition);
 
-                combinations.Add(new string[] { firstPart.Trim(), secondPart.Trim() });
-                startposition = spacePosition+1;
+                combinations.Add(new[] { firstPart.Trim(), secondPart.Trim() });
+                startposition = spacePosition + 1;
             }
         }
 

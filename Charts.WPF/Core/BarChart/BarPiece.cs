@@ -13,6 +13,7 @@
 #else
 #endif
     using System;
+    using System.Diagnostics;
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Media.Animation;
@@ -27,7 +28,7 @@
 
         public static readonly DependencyProperty PercentageProperty =
             DependencyProperty.Register("Percentage", typeof(double), typeof(BarPiece),
-            new PropertyMetadata(0.0, new PropertyChangedCallback(OnPercentageChanged)));
+            new PropertyMetadata(0.0, OnPercentageChanged));
         
         public static readonly DependencyProperty ColumnWidthProperty =
             DependencyProperty.Register("ColumnWidth", typeof(double), typeof(BarPiece),
@@ -126,7 +127,7 @@
                 scaleAnimation.From = startWidth;
                 scaleAnimation.To = this.ClientWidth * this.Percentage;
                 scaleAnimation.Duration = TimeSpan.FromMilliseconds(500);
-                scaleAnimation.EasingFunction = new QuarticEase() { EasingMode = EasingMode.EaseOut };
+                scaleAnimation.EasingFunction = new QuarticEase { EasingMode = EasingMode.EaseOut };
                 var storyScaleX = new Storyboard();
                 storyScaleX.Children.Add(scaleAnimation);
                 
@@ -144,7 +145,7 @@
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Trace.WriteLine(ex.ToString());
+                Trace.WriteLine(ex.ToString());
             }
         }
 

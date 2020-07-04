@@ -23,19 +23,19 @@
            DependencyProperty.Register("MaxDataPointValue",
            typeof(double),
            typeof(DataPoint),
-           new PropertyMetadata(0.0, new PropertyChangedCallback(MaxDataPointValueChanged)));
+           new PropertyMetadata(0.0, MaxDataPointValueChanged));
 
         public static readonly DependencyProperty MaxDataPointGroupSumProperty =
            DependencyProperty.Register("MaxDataPointGroupSum",
            typeof(double),
            typeof(DataPoint),
-           new PropertyMetadata(0.0, new PropertyChangedCallback(MaxDataPointGroupSumChanged)));
+           new PropertyMetadata(0.0, MaxDataPointGroupSumChanged));
 
         public static readonly DependencyProperty SumOfDataPointGroupProperty =
            DependencyProperty.Register("SumOfDataPointGroup",
            typeof(double),
            typeof(DataPoint),
-           new PropertyMetadata(0.0, new PropertyChangedCallback(SumOfDataPointGroupChanged)));
+           new PropertyMetadata(0.0, SumOfDataPointGroupChanged));
 
         public static readonly DependencyProperty StartValueProperty =
           DependencyProperty.Register("StartValue",
@@ -65,7 +65,7 @@
           DependencyProperty.Register("IsClickedByUser",
           typeof(bool),
           typeof(DataPoint),
-          new PropertyMetadata(false, new PropertyChangedCallback(OnIsClickedByUserChanged)));
+          new PropertyMetadata(false, OnIsClickedByUserChanged));
 
         public static readonly DependencyProperty ToolTipFormatProperty =
           DependencyProperty.Register("ToolTipFormat",
@@ -75,7 +75,7 @@
 
         private static void OnIsClickedByUserChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (((bool)e.NewValue) == true)
+            if ((bool)e.NewValue)
             {
                 (d as DataPoint).UpdateSelection();
             }
@@ -95,7 +95,7 @@
           DependencyProperty.Register("SelectedItem",
           typeof(object),
           typeof(DataPoint),
-          new PropertyMetadata(null, new PropertyChangedCallback(OnSelectedItemChanged)));
+          new PropertyMetadata(null, OnSelectedItemChanged));
 
         private static void OnSelectedItemChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -125,7 +125,7 @@
 
         public object SelectedItem
         {
-            get => (object)this.GetValue(SelectedItemProperty);
+            get => this.GetValue(SelectedItemProperty);
             set => this.SetValue(SelectedItemProperty, value);
         }
 
@@ -344,7 +344,7 @@
                     return 0.0d;
                 }
 
-                return double.Parse(this.GetItemValue(this._ReferencedObject, this.ValueMember).ToString());
+                return double.Parse(this.GetItemValue(this._ReferencedObject, this.ValueMember));
             }
         }
 
@@ -361,7 +361,7 @@
                     }
                 }
 
-                throw new Exception(string.Format("Property '{0}' not found on item of type '{1}'", propertyName, item.GetType().ToString()));
+                throw new Exception(string.Format("Property '{0}' not found on item of type '{1}'", propertyName, item.GetType()));
             }
 
             return null;

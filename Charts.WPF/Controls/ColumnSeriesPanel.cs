@@ -63,6 +63,7 @@
 
                 return returnedSize;
             }
+
             // ok, we have fixed size, so we can recalculate all
 
             // check, if all texts have enough space to be placed in a single row, if not, switch to 2 rows
@@ -189,7 +190,6 @@
 
                 return 0.0; // 2nd row is empty 
             }
-
             {
                 // we have 2 rows
                 var highestElementHeight = 0.0;

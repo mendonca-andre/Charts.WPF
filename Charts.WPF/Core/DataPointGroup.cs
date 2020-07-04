@@ -33,7 +33,7 @@
 
         public object SelectedItem
         {
-            get => (object)this.GetValue(SelectedItemProperty);
+            get => this.GetValue(SelectedItemProperty);
             set => this.SetValue(SelectedItemProperty, value);
         }
         public double SumOfDataPointGroup

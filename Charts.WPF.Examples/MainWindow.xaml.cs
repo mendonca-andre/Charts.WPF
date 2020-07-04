@@ -1,9 +1,9 @@
-﻿namespace Charts.WPF.Examples
+﻿namespace Charts.WPF.Example
 {
     using System.Windows;
     using System.Windows.Media;
 
-    using Charts.WPF.Examples.ViewModel;
+    using Charts.WPF.Example.ViewModel;
 
     public partial class MainWindow : Window
     {

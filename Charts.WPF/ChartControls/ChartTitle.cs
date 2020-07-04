@@ -18,10 +18,13 @@ namespace Charts.WPF.ChartControls
         public static readonly DependencyProperty TitleProperty =
             DependencyProperty.Register("Title", typeof(string), typeof(ChartTitle),
             new PropertyMetadata(null));
-        public static readonly DependencyProperty SubTitleProperty =
-            DependencyProperty.Register("SubTitle", typeof(string), typeof(ChartTitle),
+
+        public static readonly DependencyProperty SubTitleProperty = DependencyProperty.Register(
+            "SubTitle",
+            typeof(string),
+            typeof(ChartTitle),
             new PropertyMetadata(null));
-     
+
         static ChartTitle()
         {
 #if NETFX_CORE

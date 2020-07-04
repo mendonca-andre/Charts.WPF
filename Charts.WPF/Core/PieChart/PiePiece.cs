@@ -13,6 +13,7 @@
 #else
 #endif
     using System;
+    using System.Diagnostics;
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Media;
@@ -20,6 +21,9 @@
 
     using Charts.WPF.Core.Doughnut;
 
+    /// <summary>
+    /// The pie piece.
+    /// </summary>
     public class PiePiece : PieceBase
     {
         #region Fields
@@ -33,19 +37,19 @@
         
         public static readonly DependencyProperty MaxValueProperty =
             DependencyProperty.Register("MaxValue", typeof(double), typeof(PiePiece),
-            new PropertyMetadata(0.0, new PropertyChangedCallback(UpdatePie)));
+            new PropertyMetadata(0.0, UpdatePie));
         
         public static readonly DependencyProperty SumOfDataSeriesProperty =
             DependencyProperty.Register("SumOfDataSeries", typeof(double), typeof(PiePiece),
-            new PropertyMetadata(0.0, new PropertyChangedCallback(UpdatePie)));
+            new PropertyMetadata(0.0, UpdatePie));
         
         public static readonly DependencyProperty ValueProperty =
             DependencyProperty.Register("Value", typeof(double), typeof(PiePiece),
-            new PropertyMetadata(0.0, new PropertyChangedCallback(UpdatePie)));
+            new PropertyMetadata(0.0, UpdatePie));
         
         public static readonly DependencyProperty StartValueProperty =
             DependencyProperty.Register("StartValue", typeof(double), typeof(PiePiece),
-            new PropertyMetadata(0.0, new PropertyChangedCallback(UpdatePie)));
+            new PropertyMetadata(0.0, UpdatePie));
         
         public static readonly DependencyProperty DoughnutInnerRadiusRatioProperty =
             DependencyProperty.Register("DoughnutInnerRadiusRatio", typeof(double), typeof(PiePiece),
@@ -202,19 +206,8 @@
             }
         }
 
-        public bool IsDoughnut
-        {
-            get
-            {
-                if (this.ParentChart is DoughnutChart)
-                {
-                    return true;
-                }
+        public bool IsDoughnut => this.ParentChart is DoughnutChart;
 
-                return false;
-            }
-        }
-        
         #endregion Properties
 
         #region Methods
@@ -275,7 +268,7 @@
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Trace.WriteLine(ex.ToString());
+                Trace.WriteLine(ex.ToString());
             }
         }
 
@@ -327,12 +320,12 @@
                 var isReflexAngle = Math.Abs(endAngle - startAngle) > 180.0;
 
                 var segments = new PathSegmentCollection();
-                segments.Add(new LineSegment() { Point = B });
+                segments.Add(new LineSegment { Point = B });
 
                 if (isDoughnut)
                 {
                     segments.Add(
-                        new ArcSegment()
+                        new ArcSegment
                             {
                                 Size = new Size(gapRadius, gapRadius),
                                 Point = C,
@@ -341,9 +334,9 @@
                             });
                 }
 
-                segments.Add(new LineSegment() { Point = D });
+                segments.Add(new LineSegment { Point = D });
                 segments.Add(
-                    new ArcSegment()
+                    new ArcSegment
                         {
                             Size = new Size(pieRadius, pieRadius),
                             Point = A,
@@ -351,16 +344,16 @@
                             IsLargeArc = isReflexAngle
                         });
 
-                var segmentPath = new Path()
-                                       {
+                var segmentPath = new Path
+                                      {
                                            StrokeLineJoin = PenLineJoin.Round,
-                                           Stroke = new SolidColorBrush() { Color = Colors.Black },
+                                           Stroke = new SolidColorBrush { Color = Colors.Black },
                                            StrokeThickness = 0.0d,
-                                           Data = new PathGeometry()
+                                           Data = new PathGeometry
                                                       {
-                                                          Figures = new PathFigureCollection()
+                                                          Figures = new PathFigureCollection
                                                                         {
-                                                                            new PathFigure()
+                                                                            new PathFigure
                                                                                 {
                                                                                     IsClosed = true,
                                                                                     StartPoint = A,
@@ -369,8 +362,8 @@
                                                                         }
                                                       }
                                        };
-                this.SetValue(PiePiece.GeometryProperty, this.CloneDeep(segmentPath.Data as PathGeometry));
-                this.SetValue(PiePiece.SelectionGeometryProperty, this.CloneDeep(segmentPath.Data as PathGeometry));
+                this.SetValue(GeometryProperty, this.CloneDeep(segmentPath.Data as PathGeometry));
+                this.SetValue(SelectionGeometryProperty, this.CloneDeep(segmentPath.Data as PathGeometry));
 
                 var inRadius = radius * 0.65;
                 var outRadius = radius * 1.25;
@@ -406,19 +399,19 @@
                 }
 
                 var linesegments = new PathSegmentCollection();
-                linesegments.Add(new LineSegment() { Point = pointOuterCircle });
-                linesegments.Add(new LineSegment() { Point = pointerMoreOuter });
+                linesegments.Add(new LineSegment { Point = pointOuterCircle });
+                linesegments.Add(new LineSegment { Point = pointerMoreOuter });
 
-                var linesegmentPath = new Path()
-                                           {
+                var linesegmentPath = new Path
+                                          {
                                                StrokeLineJoin = PenLineJoin.Round,
-                                               Stroke = new SolidColorBrush() { Color = Colors.Black },
+                                               Stroke = new SolidColorBrush { Color = Colors.Black },
                                                StrokeThickness = 2.0d,
-                                               Data = new PathGeometry()
+                                               Data = new PathGeometry
                                                           {
-                                                              Figures = new PathFigureCollection()
+                                                              Figures = new PathFigureCollection
                                                                             {
-                                                                                new PathFigure()
+                                                                                new PathFigure
                                                                                     {
                                                                                         IsClosed = false,
                                                                                         StartPoint = pointOnCircle,
@@ -427,7 +420,7 @@
                                                                             }
                                                           }
                                            };
-                this.SetValue(PiePiece.LineGeometryProperty, this.CloneDeep(linesegmentPath.Data as PathGeometry));
+                this.SetValue(LineGeometryProperty, this.CloneDeep(linesegmentPath.Data as PathGeometry));
 
                 /*
                                 label.Measure(new Size(420, 420));
@@ -449,7 +442,7 @@
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Trace.WriteLine(ex.ToString());
+                Trace.WriteLine(ex.ToString());
             }
         }
 

@@ -12,7 +12,6 @@
     using Windows.UI.Core;
     using Windows.UI.Xaml.Data;
 #else
-    using System.Windows.Media;
 #endif
     using System;
     using System.Collections;
@@ -20,10 +19,13 @@
     using System.Collections.ObjectModel;
     using System.Collections.Specialized;
     using System.ComponentModel;
+    using System.Diagnostics;
+    using System.Globalization;
     using System.Linq;
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Data;
+    using System.Windows.Media;
 
     using Charts.WPF.ChartControls;
 
@@ -80,7 +82,7 @@
         
         public static readonly DependencyProperty IsRowColumnSwitchedProperty =
             DependencyProperty.Register("IsRowColumnSwitched",
-            typeof(bool), typeof(ChartBase), new PropertyMetadata(false, new PropertyChangedCallback(OnIsRowColumnSwitchedChanged)));
+            typeof(bool), typeof(ChartBase), new PropertyMetadata(false, OnIsRowColumnSwitchedChanged));
 
         public static readonly DependencyProperty ChartTitleStyleProperty =
             DependencyProperty.Register("ChartTitleStyle",
@@ -88,11 +90,11 @@
 
         public static readonly DependencyProperty SeriesProperty =
             DependencyProperty.Register("Series",
-            typeof(ObservableCollection<ChartSeries>), typeof(ChartBase), new PropertyMetadata(null, new PropertyChangedCallback(OnSeriesChanged)));
+            typeof(ObservableCollection<ChartSeries>), typeof(ChartBase), new PropertyMetadata(null, OnSeriesChanged));
         
         public static readonly DependencyProperty InternalDataContextProperty =
             DependencyProperty.Register("InternalDataContext",
-            typeof(object), typeof(ChartBase), new PropertyMetadata(null, new PropertyChangedCallback(InternalDataContextChanged)));
+            typeof(object), typeof(ChartBase), new PropertyMetadata(null, InternalDataContextChanged));
 
         public static readonly DependencyProperty SeriesSourceProperty =
            DependencyProperty.Register("SeriesSource",
@@ -140,7 +142,7 @@
             var senderControl = sender as ChartBase;
             if (senderControl != null)
             {
-                (senderControl as ChartBase).InternalDataContextChanged();
+                senderControl.InternalDataContextChanged();
             }
         }
 
@@ -167,9 +169,10 @@
             {
                 if (newItem is FrameworkElement)
                 {
-                    (newItem as FrameworkElement).DataContext = this.DataContext;
+                    newItem.DataContext = this.DataContext;
                 }
             }
+
             this.onApplyTemplateFinished = true;
             this.UpdateSeries();
         }
@@ -205,8 +208,9 @@
 #else
                         if ((newSeries as ItemsControl).Items is INotifyCollectionChanged)
                         {
-                            ((INotifyCollectionChanged)(newSeries as ItemsControl).Items).CollectionChanged += new NotifyCollectionChangedEventHandler(this.Window1_CollectionChanged);
+                            ((INotifyCollectionChanged)(newSeries as ItemsControl).Items).CollectionChanged += this.Window1_CollectionChanged;
                         }
+
 #endif
                     }
                 }
@@ -221,9 +225,10 @@
 #else
         private void Window1_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            //new items added to a series, we may update them
+            // new items added to a series, we may update them
             this.UpdateSeries();
         }
+
 #endif
         #endregion
 
@@ -303,7 +308,7 @@
 
         public object SelectedItem
         {
-            get => (object)this.GetValue(SelectedItemProperty);
+            get => this.GetValue(SelectedItemProperty);
             set => this.SetValue(SelectedItemProperty, value);
         }
         public bool IsRowColumnSwitched
@@ -388,6 +393,7 @@
         {
             this.InternalOnApplyTemplate();
         }
+
 #endif
 
         public void InternalOnApplyTemplate()
@@ -429,6 +435,7 @@
                     return v.ToString();
                 }
             }
+
             throw new Exception("Value not found");
         }
 
@@ -458,9 +465,10 @@
                 }
                 catch (Exception ex)
                 {
-                    System.Diagnostics.Trace.WriteLine(ex.ToString());
+                    Trace.WriteLine(ex.ToString());
                 }
             }
+
             return new SolidColorBrush(Colors.Red);
         }
 
@@ -507,25 +515,27 @@
             {
             }
 
-            var wertString = wert.ToString(System.Globalization.CultureInfo.InvariantCulture);
+            var wertString = wert.ToString(CultureInfo.InvariantCulture);
             double tensBelowNull = 1;
 
             if (wert <= 1)
             {
-                //0.72  -> 0.8
-                //0.00145
-                //0.0007453 0> 7453
+                // 0.72  -> 0.8
+                // 0.00145
+                // 0.0007453 0> 7453
 
-                //count digits after comma
-                var digitsAfterComma = wertString.Replace("0.", "").Length;
+                // count digits after comma
+                var digitsAfterComma = wertString.Replace("0.", string.Empty).Length;
                 tensBelowNull = Math.Pow(10, digitsAfterComma);
                 wert = wert * tensBelowNull;
-                wertString = wert.ToString(System.Globalization.CultureInfo.InvariantCulture);
+                wertString = wert.ToString(CultureInfo.InvariantCulture);
             }
+
             if (wertString.Contains("."))
             {
                 wertString = wertString.Substring(0, wertString.IndexOf("."));
             }
+
             var digitsBeforeComma = wertString.Length;
             var roundedValue = (int)Math.Ceiling(wert);
             double tens = 0;
@@ -560,11 +570,12 @@
         {
             if (this.IsUseNextBiggestMaxValue)
             {
-                //roundedValue += 1;
+                // roundedValue += 1;
             }
+
             while (true)
             {
-                var divisors = new int[] { 2, 5, 10, 25 };
+                var divisors = new[] { 2, 5, 10, 25 };
                 foreach (var divisor in divisors)
                 {
                     var div = roundedValue % divisor;
@@ -580,6 +591,7 @@
                         return mod;
                     }
                 }
+
                 roundedValue = roundedValue + 1;
             }
         }
@@ -613,7 +625,7 @@
                 this.Exceptions.Add("Series with empty caption cannot be used.");
             }
 
-            //ensure that each series has a different name
+            // ensure that each series has a different name
             if (this.Series.GroupBy(series => series.SeriesTitle).Any(group => group.Count() > 1))
             {
                 this.Exceptions.Add("Series with duplicate name cannot be used.");
@@ -633,7 +645,7 @@
                             var itemIndex = 0;
                             foreach (var seriesItem in initialSeries.Items)
                             {                                
-                                var seriesItemCaption = this.GetPropertyValue(seriesItem, initialSeries.DisplayMember); //Security
+                                var seriesItemCaption = this.GetPropertyValue(seriesItem, initialSeries.DisplayMember); // Security
                                 var dataPointGroup = result.Where(group => group.Caption == seriesItemCaption).FirstOrDefault();
                                 if (dataPointGroup == null)
                                 {
@@ -650,7 +662,7 @@
                                         datapoint.SeriesCaption = allSeries.SeriesTitle;
                                         datapoint.ValueMember = allSeries.ValueMember;
                                         datapoint.DisplayMember = allSeries.DisplayMember;
-                                        datapoint.ItemBrush = this.Series.Count == 1 ? this.GetItemBrush(itemIndex) : this.GetItemBrush(seriesIndex); //if only one series, use different color for each datapoint, if multiple series we use different color for each series
+                                        datapoint.ItemBrush = this.Series.Count == 1 ? this.GetItemBrush(itemIndex) : this.GetItemBrush(seriesIndex); // if only one series, use different color for each datapoint, if multiple series we use different color for each series
                                         datapoint.PropertyChanged += this.groupdItem_PropertyChanged;
 
                                         this.CreateDataPointBindings(datapoint, dataPointGroup);
@@ -658,6 +670,7 @@
                                         dataPointGroup.DataPoints.Add(datapoint);
                                         seriesIndex++;
                                     }
+
                                     itemIndex++;
                                 }                                
                             }
@@ -668,12 +681,12 @@
                         {
                             foreach (var seriesItem in series.Items)
                             {
-                                var seriesItemCaption = this.GetPropertyValue(seriesItem, series.DisplayMember); //Security
+                                var seriesItemCaption = this.GetPropertyValue(seriesItem, series.DisplayMember); // Security
 
-                                //finde die gruppe mit dem Namen
+                                // finde die gruppe mit dem Namen
                                 var addToGroup = result.Where(group => group.Caption == seriesItemCaption).FirstOrDefault();
 
-                                //finde in der Gruppe 
+                                // finde in der Gruppe 
                                 var groupdItem = addToGroup.DataPoints.Where(item => item.SeriesCaption == series.SeriesTitle).FirstOrDefault();
                                 groupdItem.ReferencedObject = seriesItem;
                             }
@@ -683,20 +696,20 @@
                     {
                         foreach (var initialSeries in this.Series)
                         {
-                            //erstelle für jede Series einen DataPointGroup, darin wird dann für jedes Item in jeder Serie ein DataPoint angelegt
+                            // erstelle für jede Series einen DataPointGroup, darin wird dann für jedes Item in jeder Serie ein DataPoint angelegt
                             var dataPointGroup = new DataPointGroup(this, initialSeries.SeriesTitle, this.Series.Count > 1 ? true : false);
                             dataPointGroup.PropertyChanged += this.dataPointGroup_PropertyChanged;
                             result.Add(dataPointGroup);
 
                             this.CreateDataPointGroupBindings(dataPointGroup);
 
-                            //stelle nun sicher, dass alle DataPointGruppen die gleichen Datapoints hat
+                            // stelle nun sicher, dass alle DataPointGruppen die gleichen Datapoints hat
                             foreach (var allSeries in this.Series)
                             {
                                 var seriesIndex = 0;
                                 foreach (var seriesItem in allSeries.Items)
                                 {
-                                    var seriesItemCaption = this.GetPropertyValue(seriesItem, initialSeries.DisplayMember); //Security
+                                    var seriesItemCaption = this.GetPropertyValue(seriesItem, initialSeries.DisplayMember); // Security
                                     var existingDataPoint = dataPointGroup.DataPoints.Where(datapoint => datapoint.SeriesCaption == seriesItemCaption).FirstOrDefault();
                                     if (existingDataPoint == null)
                                     {
@@ -711,6 +724,7 @@
 
                                         dataPointGroup.DataPoints.Add(datapoint);
                                     }
+
                                     seriesIndex++;
                                 }
                             }
@@ -721,11 +735,11 @@
                         {
                             foreach (var seriesItem in series.Items)
                             {
-                                //finde die gruppe mit dem Namen
+                                // finde die gruppe mit dem Namen
                                 var addToGroup = result.Where(group => group.Caption == series.SeriesTitle).FirstOrDefault();
 
-                                //finde in der Gruppe das richtige Element
-                                var seriesItemCaption = this.GetPropertyValue(seriesItem, series.DisplayMember); //Security
+                                // finde in der Gruppe das richtige Element
+                                var seriesItemCaption = this.GetPropertyValue(seriesItem, series.DisplayMember); // Security
 
                                 var groupdItem = addToGroup.DataPoints.Where(item => item.SeriesCaption == seriesItemCaption).FirstOrDefault();
                                 groupdItem.ReferencedObject = seriesItem;
@@ -737,7 +751,7 @@
                 {
                 }
 
-                //finished, copy all to the array
+                // finished, copy all to the array
                 this.groupedSeries.Clear();
                 foreach (var item in result)
                 {
@@ -769,6 +783,7 @@
                         this.chartLegendItems.Add(legendItem); 
                     }
                 }
+
                 this.RecalcSumOfDataPointGroup();
             }
         }
@@ -777,7 +792,7 @@
         {
             if (this.IsRowColumnSwitched)
             {                
-                //special case for piechart with 1 series, it does not make sense to switch
+                // special case for piechart with 1 series, it does not make sense to switch
                 if ((this as PieChart.PieChart) != null)
                 {
                     if (this.Series.Count <= 1)
@@ -788,12 +803,13 @@
 
                 return true;
             }
+
             return false;
         }
 
         private void UpdateColorsOfDataPoints()
         {
-            foreach(var dataPointGroup in this.groupedSeries)
+            foreach (var dataPointGroup in this.groupedSeries)
             {
                 var index = 0;
                 foreach (var dataPoint in dataPointGroup.DataPoints)
@@ -802,32 +818,33 @@
                     index++;
                 }
             }
+
             /*
-            int legendindex = 0;
-            foreach (var legendItem in chartLegendItems)
-            {
-                legendItem.ItemBrush = GetItemBrush(legendindex);
-            }
-            */
+                        int legendindex = 0;
+                        foreach (var legendItem in chartLegendItems)
+                        {
+                            legendItem.ItemBrush = GetItemBrush(legendindex);
+                        }
+                        */
         }
 
         private void CreateDataPointBindings(DataPoint datapoint, DataPointGroup dataPointGroup)
         {
-            //Sende an Datapoints the maximalvalue des Charts mit (wichtig in clustered Column chart)
+            // Sende an Datapoints the maximalvalue des Charts mit (wichtig in clustered Column chart)
             var maxDataPointValueBinding = new Binding();
             maxDataPointValueBinding.Source = this;
             maxDataPointValueBinding.Mode = BindingMode.OneWay;
             maxDataPointValueBinding.Path = new PropertyPath("MaxDataPointValue");
             BindingOperations.SetBinding(datapoint, DataPoint.MaxDataPointValueProperty, maxDataPointValueBinding);
 
-            //Sende den Datapoints the höchste Summe einer DataPointGroup mit (wichtig für stacked chart)
+            // Sende den Datapoints the höchste Summe einer DataPointGroup mit (wichtig für stacked chart)
             var maxDataPointGroupSumBinding = new Binding();
             maxDataPointGroupSumBinding.Source = this;
             maxDataPointGroupSumBinding.Mode = BindingMode.OneWay;
             maxDataPointGroupSumBinding.Path = new PropertyPath("MaxDataPointGroupSum");
             BindingOperations.SetBinding(datapoint, DataPoint.MaxDataPointGroupSumProperty, maxDataPointGroupSumBinding);
 
-            //Sende den Datapoint die Summe seiner Datagroup
+            // Sende den Datapoint die Summe seiner Datagroup
             var sumBinding = new Binding();
             sumBinding.Source = dataPointGroup;
             sumBinding.Mode = BindingMode.OneWay;
@@ -846,7 +863,7 @@
             selectedBrushBinding.Path = new PropertyPath("SelectedBrush");
             BindingOperations.SetBinding(datapoint, DataPoint.SelectedBrushProperty, selectedBrushBinding);
 
-            //tooltip format (may change sometimes)
+            // tooltip format (may change sometimes)
             var tooltipFormatBinding = new Binding();
             tooltipFormatBinding.Source = this;
             tooltipFormatBinding.Mode = BindingMode.OneWay;
@@ -882,6 +899,7 @@
                     maxValue = dataPointGroup.SumOfDataPointGroup;
                 }
             }
+
             this.MaxDataPointGroupSum = this.CalculateMaxValue(maxValue);
         }
 
@@ -903,6 +921,7 @@
                     }
                 }
             }
+
             this.MaxDataPointValue = this.CalculateMaxValue(maxValue);
         }
 
@@ -925,10 +944,9 @@
             view.DataContext = dataContext;
 
 #if NETFX_CORE
-
 #elif SILVERLIGHT
-
 #else
+
             // update the bindings for wpf
             var enumerator = element.GetLocalValueEnumerator();
             while (enumerator.MoveNext())
@@ -940,6 +958,7 @@
                     view.SetBinding(bind.Property, ((BindingExpression)bind.Value).ParentBinding);
                 }
             }
+
 #endif
             return view;
         }
@@ -968,7 +987,7 @@
                         this.Series.Clear();
                         foreach (var item in this.SeriesSource)
                         {
-                            var series = this.LoadDataTemplate<ChartSeries>(this.SeriesTemplate, item); //.LoadContent() as ChartSeries;
+                            var series = this.LoadDataTemplate<ChartSeries>(this.SeriesTemplate, item); // .LoadContent() as ChartSeries;
 
                             if (series != null)
                             {
@@ -1015,7 +1034,7 @@
 
         }
         
-        private void RaisePropertyChangeEvent(String propertyName)
+        private void RaisePropertyChangeEvent(string propertyName)
         {
             if (this.PropertyChanged != null)
                 this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));

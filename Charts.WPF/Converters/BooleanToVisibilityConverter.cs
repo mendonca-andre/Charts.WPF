@@ -6,10 +6,14 @@
 #else
 #endif
     using System;
+    using System.Diagnostics;
     using System.Globalization;
     using System.Windows;
     using System.Windows.Data;
 
+    /// <summary>
+    /// The boolean to visibility converter.
+    /// </summary>
     public sealed class BooleanToVisibilityConverter : IValueConverter
     {
 
@@ -38,49 +42,81 @@
 
 #endif
 
-        private object InternalConvert(object value, Type targetType, object parameter)
-        {
-            try
-            {
-                var flag = false;
-                if (value is bool)
-                {
-                    flag = (bool)value;
-                }
-                else if (value is bool?)
-                {
-                    var nullable = (bool?)value;
-                    flag = nullable.GetValueOrDefault();
-                }
-
-                if (parameter != null)
-                {
-                    if (bool.Parse((string)parameter))
-                    {
-                        flag = !flag;
-                    }
-                }
-
-                return flag ? Visibility.Visible : Visibility.Collapsed;
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Trace.WriteLine(ex.ToString());
-            }
-
-            return Visibility.Collapsed;
-        }
-
+        /// <summary>
+        /// The internal convert back.
+        /// </summary>
+        /// <param name="value">
+        /// The value.
+        /// </param>
+        /// <param name="targetType">
+        /// The target type.
+        /// </param>
+        /// <param name="parameter">
+        /// The parameter.
+        /// </param>
+        /// <returns>
+        /// The <see cref="object"/>.
+        /// </returns>
         public object InternalConvertBack(object value, Type targetType, object parameter)
         {
-            var back = ((value is Visibility) && (((Visibility)value) == Visibility.Visible));
-            if (parameter == null) return back;
+            var back = value is Visibility visibility && visibility == Visibility.Visible;
+            if (parameter == null)
+            {
+                return back;
+            }
+
             if ((bool)parameter)
             {
                 back = !back;
             }
 
             return back;
+        }
+
+
+        /// <summary>
+        /// The internal convert.
+        /// </summary>
+        /// <param name="value">
+        /// The value.
+        /// </param>
+        /// <param name="targetType">
+        /// The target type.
+        /// </param>
+        /// <param name="parameter">
+        /// The parameter.
+        /// </param>
+        /// <returns>
+        /// The <see cref="object"/>.
+        /// </returns>
+        private object InternalConvert(object value, Type targetType, object parameter)
+        {
+            try
+            {
+                var flag = false;
+                if (value is bool b)
+                {
+                    flag = b;
+                }
+
+                if (parameter == null)
+                {
+                    return flag ? Visibility.Visible : Visibility.Collapsed;
+                }
+
+                if (bool.Parse((string)parameter))
+                {
+                    flag = !flag;
+                }
+
+                return flag ? Visibility.Visible : Visibility.Collapsed;
+            }
+            catch (Exception ex)
+            {
+                Trace.WriteLine(ex.ToString());
+            }
+
+            return Visibility.Collapsed;
         }
     }
 }
