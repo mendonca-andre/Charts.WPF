@@ -30,5 +30,3 @@ public class TestClass
     ValueMember="Number"    
     ItemsSource="{Binding Path=Errors}" />
 ```
-  
-Fork from http://modernuicharts.codeplex.com.
